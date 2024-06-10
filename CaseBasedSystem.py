@@ -518,7 +518,7 @@ def fetch_unknown_diagnosis_cases(case_database):
     """
     unknown_diagnosis_cases = {}
     for case_id, case in case_database.items():
-        if case['Diagnosis'] == 'Unknown':
+        if case['Diagnosis'] == 'No similar cases found.':
             unknown_diagnosis_cases[case_id] = case
     return unknown_diagnosis_cases
 

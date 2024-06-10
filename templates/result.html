@@ -1,12 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>FMD Case Diagnosis Result</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Results</title>
 </head>
 <body>
-    <h1>FMD Case Diagnosis Result</h1>
-    <p><strong>Diagnosis:</strong> {{ diagnosis }}</p>
-    <p><strong>Recommended Treatment:</strong> {{ treatment|join(', ') }}</p>
-    <p><strong>Prognosis:</strong> {{ prognosis }}</p>
+    <h1>Case Results</h1>
+    <h2>Diagnosis</h2>
+    <p>{{ diagnosis }}</p>
+    <h2>Recommended Treatment</h2>
+    <ul>
+        {% for treatment in treatment %}
+            <li>{{ treatment }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Prognosis</h2>
+    <p>{{ prognosis }}</p>
+    <h2>Similar Cases</h2>
+    <ul>
+        {% for case in similar_cases %}
+            <li>{{ case }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Enter another case</a>
 </body>
 </html>

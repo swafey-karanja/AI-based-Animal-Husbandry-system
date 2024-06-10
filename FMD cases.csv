@@ -400,8 +400,4 @@ CASE398,"Enlarged lymph nodes, reduced milk production",72,Male,Shared grazing p
 CASE399,"Depression, anorexia, lethargy",24,Female,Grazing in tick-infested pastures,East Coast Fever,"Antiparasitic drugs, supportive care",Culled due to severe symptoms
 CASE400,"Fever, nasal discharge, anorexia",60,Female,Recent exposure to tick-infested areas,Foot and Mouth Disease,"Antibiotics, Quarantine, Supportive care",Recovered
 CASE401,"fever, mouth lesions, lameness",18,Female,"Livestock farm, high animal density",Foot and Mouth Disease,"Antibiotics, Quarantine, Supportive care",Recovered
-CASE402,"grain-like bumps in the nostrils and inside the lips and cheeks that often develop into ulcers, discharge of watery mucus from eyes and nostrils occasionally including blood, rapid breathing, reduced milk production",62,Female,Recent exposure to pests,Unknown,Unknown,Not determined yet
-CASE403,"Depression, anorexia, lethargy",24,Female,Grazing in tick-infested pastures,Unknown,Unknown,Not determined yet
-CASE404,"Depression, anorexia, lethargy",24,Female,Grazing in tick-infested pastures,Unknown,Unknown,Not determined yet
-CASE405,"Depression, anorexia, lethargy",24,Female,Grazing in tick-infested pastures,Unknown,Unknown,Not determined yet
-CASE406,"Depression, anorexia, lethargy",24,Female,Grazing in tick-infested pastures,Unknown,Unknown,Not determined yet
+CASE402,"grain-like bumps in the nostrils and inside the lips and cheeks that often develop into ulcers,  discharge of watery mucus from eyes and nostrils occasionally including blood,  rapid breathing,  reduced milk production",62,Female,Recent exposure to pests,Rinderpest,"""Antibiotics""",Recovered without complications

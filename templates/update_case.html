@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Case</title>
+</head>
+<body>
+    <h1>Update Case ID: {{ case_id }}</h1>
+    {% if case %}
+        <form method="post">
+            <label for="diagnosis">Diagnosis:</label><br>
+            <input type="text" id="diagnosis" name="diagnosis" value="{{ case['Diagnosis'] }}"><br><br>
+            <label for="treatment">Treatment (comma-separated):</label><br>
+            <input type="text" id="treatment" name="treatment" value="{{ case['Treatment'] }}"><br><br>
+            <label for="outcome">Outcome:</label><br>
+            <input type="text" id="outcome" name="outcome" value="{{ case['Outcome'] }}"><br><br>
+            <input type="submit" value="Update Case">
+        </form>
+    {% else %}
+        <p>Case not found.</p>
+    {% endif %}
+    <a href="{{ url_for('unknown_cases') }}">Back to Unknown Cases</a>
+</body>
+</html>
