@@ -3,9 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Update Case</title>
+    <style>
+         body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #040505;
+            color: #f8f9fa;
+        }
+        .header {
+            height: 5%;
+            background-color: #40804b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .link {
+            display: block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Update Case ID: {{ case_id }}</h1>
+    <div class="header">
+        <h1>Update Case ID: {{ case_id }}</h1>
+    </div>
     {% if case %}
         <form method="post">
             <label for="diagnosis">Diagnosis:</label><br>
@@ -19,6 +46,6 @@
     {% else %}
         <p>Case not found.</p>
     {% endif %}
-    <a href="{{ url_for('unknown_cases') }}">Back to Unknown Cases</a>
+    <a href="{{ url_for('unknown_cases') }}" class="link">Back to Unknown Cases</a>
 </body>
 </html>

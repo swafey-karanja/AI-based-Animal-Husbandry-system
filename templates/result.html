@@ -4,9 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Case Results</title>
+    <style>
+         body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #040505;
+            color: #f8f9fa;
+        }
+        .header {
+            height: 5%;
+            background-color: #40804b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .link {
+            display: block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Case Results</h1>
+    <div class="header">
+        <h1>Case Results</h1>
+    </div>
     <h2>Diagnosis</h2>
     <p>{{ diagnosis }}</p>
     <h2>Recommended Treatment</h2>
@@ -23,6 +50,6 @@
             <li>{{ case }}</li>
         {% endfor %}
     </ul>
-    <a href="{{ url_for('index') }}">Enter another case</a>
+    <a href="{{ url_for('index') }}" class="link">Enter another case</a>
 </body>
 </html>

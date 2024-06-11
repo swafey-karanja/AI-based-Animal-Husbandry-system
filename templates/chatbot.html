@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Web App</title>
+    <style>
+        body {
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        background-color: #040505;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        }
+
+        .header{
+            max-height: 5%;
+            padding: 6px;
+            background-color: #40804b;
+        }
+
+        .container {
+            max-width: 100%;
+            max-height: 95%;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .view-box {
+            width: 100%;
+            height: 740px;
+            border: none;
+            margin-bottom: 10px;
+            overflow-y: hidden;
+            padding: 10px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .user-message {
+            align-self: flex-start;
+            width: 30%;
+            background-color: #5f6263;
+            color: white;
+            text-align: left;
+        }
+
+        .llm-message {
+            align-self: flex-end;
+            width: 40%;
+            background-color: #2a3d36;
+            color: white;
+            text-align: right;
+        }
+
+        .indicator {
+            height: 5px;
+            background-color: green;
+            margin-top: 20px;
+        }
+
+        .change-llm {
+            margin-top: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        .query-btn{
+            background-color: #154e24;
+            margin-top: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 20px;
+            margin-top: 10px;
+            margin-right: 10px;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="title">ANIMAL HUSBANDRY CHATBOT</h1>
+    </div>
+    <div class="container">
+        <div id="view-box" class="view-box"></div>
+        <!-- <button id="display-hide" onclick="toggleDisplay()">></button> -->
+        <button class="change-llm" id="change-llm" onclick="toggleModel()">Fine_tuned only</button>
+        <input id="query-entry" type="text" placeholder="Enter your query">
+        <button class="query-btn" id="query-btn" onclick="requestInfo()">►</button>
+        <div id="indicator" class="indicator"></div>
+    </div>
+    <script>
+        let modelNo = 1;
+        let display = 0;
+
+        function toggleDisplay() {
+            let viewBox = document.getElementById('view-box');
+            let button = document.getElementById('display-hide');
+            if (display === 0) {
+                button.textContent = "<";
+                viewBox.style.display = "block";
+                display = 1;
+            } else {
+                button.textContent = ">";
+                viewBox.style.display = "none";
+                display = 0;
+            }
+        }
+
+        function toggleModel() {
+            let button = document.getElementById('change-llm');
+            if (modelNo === 2) {
+                button.textContent = "Fine_tuned only";
+                modelNo = 1;
+            } else {
+                button.textContent = "Fine tuned + RAG";
+                modelNo = 2;
+            }
+        }
+
+        // function checkSpelling(event) {
+        //     let query = event.target.value;
+        //     fetch('/spellcheck', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({ query: query }),
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         let indicator = document.getElementById('indicator');
+        //         if (data.misspelled) {
+        //             indicator.style.backgroundColor = "red";
+        //         } else {
+        //             indicator.style.backgroundColor = "green";
+        //         }
+        //     });
+        // }
+
+        function requestInfo() {
+            let query = document.getElementById('query-entry').value;
+            let viewBox = document.getElementById('view-box');
+            let button = document.getElementById('query-btn');
+            if (query === "") {
+                return;
+            }
+
+            viewBox.innerHTML += `<div class="message user-message">${query}</div>`;
+            button.textContent = "▫▫▫▫";
+
+            fetch('/query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query: query, model_no: modelNo }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                viewBox.innerHTML += `<div class="message llm-message">${data.response}</div>`;
+                button.textContent = "►";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                button.textContent = "►";
+            });
+        }
+    </script>
+</body>
+</html>

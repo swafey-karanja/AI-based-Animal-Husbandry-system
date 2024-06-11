@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import os
 from CaseBasedSystem import (
     load_case_database, calculate_overall_similarity,
@@ -6,6 +6,8 @@ from CaseBasedSystem import (
     update_case_database, save_case_database, fetch_unknown_diagnosis_cases,
     update_case
 )
+import RetreivalAugmentedGeneration
+import ModelInference
 
 app = Flask(__name__)
 
@@ -23,6 +25,21 @@ def index():
 @app.route('/chatbot')
 def chatbot():
     return render_template('chatbot.html')
+
+
+@app.route('/query', methods=['POST'])
+def query():
+    data = request.json
+    user_query = data.get('query')
+    model_no = int(data.get('model_no'))
+
+    if model_no == 1:
+        answer = ModelInference.llm_chain.invoke(input=f"{user_query}")
+        answer = answer['text']
+    else:
+        answer = RetreivalAugmentedGeneration.LLM_Run(str(user_query))
+
+    return jsonify({'response': answer})
 
 
 @app.route('/submit', methods=['POST'])

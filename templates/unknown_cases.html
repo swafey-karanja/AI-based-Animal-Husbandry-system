@@ -3,9 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Unknown Diagnosis Cases</title>
+    <style>
+         body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #040505;
+            color: #f8f9fa;
+        }
+        .header {
+            height: 5%;
+            background-color: #40804b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .link {
+            display: block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Cases with Unknown Diagnosis</h1>
+    <div class="header">
+        <h1>Cases with Unknown Diagnosis</h1>
+    </div>
     {% if cases %}
         <ul>
             {% for case_id, case in cases.items() %}
@@ -23,6 +50,6 @@
     {% else %}
         <p>No cases with unknown diagnosis found.</p>
     {% endif %}
-    <a href="{{ url_for('index') }}">Go back to home</a>
+    <a href="{{ url_for('index') }}" class="link">Go back to home</a>
 </body>
 </html>
