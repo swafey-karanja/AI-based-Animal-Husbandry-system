@@ -401,3 +401,4 @@ CASE399,"Depression, anorexia, lethargy",24,Female,Grazing in tick-infested past
 CASE400,"Fever, nasal discharge, anorexia",60,Female,Recent exposure to tick-infested areas,Foot and Mouth Disease,"Antibiotics, Quarantine, Supportive care",Recovered
 CASE401,"fever, mouth lesions, lameness",18,Female,"Livestock farm, high animal density",Foot and Mouth Disease,"Antibiotics, Quarantine, Supportive care",Recovered
 CASE402,"grain-like bumps in the nostrils and inside the lips and cheeks that often develop into ulcers,  discharge of watery mucus from eyes and nostrils occasionally including blood,  rapid breathing,  reduced milk production",62,Female,Recent exposure to pests,Rinderpest,"""Antibiotics""",Recovered without complications
+CASE403,"Fever,  nasal discharge,  anorexia",56,Male,recent encounter with another herd,lumpy skin disease,['antibiotics'],recovered with lasting effects

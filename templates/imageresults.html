@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Annotation Results</title>
+    <style>
+      body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #040505;
+            color: #f8f9fa;
+            height: 100vh;
+        }
+
+        .header {
+            height: 5%;
+            background-color: #40804b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #dee2e6;
+            padding: 10px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Annotation Results</h1>
+    </div>
+    <h1>Annotation Results</h1>
+    {% if results.pages_with_matching_images %}
+      <h2>Pages with Matching Images</h2>
+      <ul>
+        {% for url in results.pages_with_matching_images %}
+          <li><a href="{{ url }}">{{ url }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <!-- {% if results.full_matching_images %}
+      <h2>Full Matching Images</h2>
+      <ul>
+        {% for url in results.full_matching_images %}
+          <li><a href="{{ url }}">{{ url }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %} -->
+    <!-- {% if results.partial_matching_images %}
+      <h2>Partial Matching Images</h2>
+      <ul>
+        {% for url in results.partial_matching_images %}
+          <li><a href="{{ url }}">{{ url }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %} -->
+    {% if results.web_entities %}
+      <h2>Web Entities</h2>
+      <ul>
+        {% for entity in results.web_entities %}
+          <li>Description: {{ entity.description }} - Score: {{ entity.score }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <a href="{{ url_for('index_imagesearch') }}">Upload another image</a>
+  </body>
+</html>

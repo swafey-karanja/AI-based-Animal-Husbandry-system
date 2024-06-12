@@ -7,8 +7,6 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-QUOTA_PROJECT_ID = 'vision-application-426219'
-
 def annotate(path: str, quota_project_id: str) -> vision.WebDetection:
     creds, project = load_credentials_from_file(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
     creds = creds.with_quota_project(quota_project_id)
@@ -49,7 +47,7 @@ def report(annotations: vision.WebDetection) -> dict:
             {
                 'score': entity.score,
                 'description': entity.description
-            } for entity in annotations.web_entities if entity.score > 0.7
+            } for entity in annotations.web_entities
         ]
 
     return results
@@ -68,11 +66,10 @@ def upload():
     if file:
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
-        annotations = annotate(filepath, QUOTA_PROJECT_ID)
+        quota_project_id = request.form['quota_project_id']
+        annotations = annotate(filepath, quota_project_id)
         results = report(annotations)
         return render_template('imageresults.html', results=results)
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./vision-application-426219-627c55c923bb.json"

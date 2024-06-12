@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Image Upload</title>
+    <style>
+       body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #040505;
+            color: #f8f9fa;
+            height: 100vh;
+        }
+
+        .header {
+            height: 5%;
+            background-color: #40804b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #dee2e6;
+            padding: 10px;
+        }
+
+        .container {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 75%;
+        }
+
+        form {
+        width: 400px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+          text-align: center;
+        }
+
+        label {
+          display: block;
+          margin-bottom: 10px;
+        }
+
+        input[type=file] {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 20px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+        }
+
+        button[type=submit] {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+        }
+
+        button[type=submit]:hover {
+          background-color: #45a049;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Upload Image for Annotation</h1>
+    </div>
+    <div class="container">
+      <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <div>
+          <label for="file">Choose file</label>
+          <input type="file" name="file" id="file" required>
+        </div>
+        <!-- <div>
+          <label for="quota_project_id">Quota Project ID</label>
+          <input type="text" name="quota_project_id" id="quota_project_id" required>
+        </div> -->
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+  </body>
+</html>

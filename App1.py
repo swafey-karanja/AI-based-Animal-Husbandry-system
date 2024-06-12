@@ -1,5 +1,9 @@
+# App1.py
+
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import os
+from google.cloud import vision
+from google.auth import load_credentials_from_file
 from CaseBasedSystem import (
     load_case_database, calculate_overall_similarity,
     retrieve_similar_cases, diagnose_and_treat, predict_prognosis,
@@ -10,22 +14,69 @@ import RetreivalAugmentedGeneration
 import ModelInference
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads'
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/Swafey/Documents/work/project-2/Project/vision-application-426219-627c55c923bb.json"
+
+QUOTA_PROJECT_ID = 'vision-application-426219'
+
+def annotate(path: str, quota_project_id: str) -> vision.WebDetection:
+    creds, project = load_credentials_from_file(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
+    creds = creds.with_quota_project(quota_project_id)
+
+    client = vision.ImageAnnotatorClient(credentials=creds)
+
+    if path.startswith("http") or path.startswith("gs:"):
+        image = vision.Image()
+        image.source.image_uri = path
+    else:
+        with open(path, "rb") as image_file:
+            content = image_file.read()
+        image = vision.Image(content=content)
+
+    web_detection = client.web_detection(image=image).web_detection
+    return web_detection
+
+def report(annotations: vision.WebDetection) -> dict:
+    results = {}
+
+    if annotations.pages_with_matching_images:
+        results['pages_with_matching_images'] = [
+            page.url for page in annotations.pages_with_matching_images
+        ]
+
+    if annotations.full_matching_images:
+        results['full_matching_images'] = [
+            image.url for image in annotations.full_matching_images
+        ]
+
+    if annotations.partial_matching_images:
+        results['partial_matching_images'] = [
+            image.url for image in annotations.partial_matching_images
+        ]
+
+    if annotations.web_entities:
+        results['web_entities'] = [
+            {
+                'score': entity.score,
+                'description': entity.description
+            } for entity in annotations.web_entities if entity.score > 0.7
+        ]
+
+    return results
 
 @app.route('/')
 def home():
     return render_template('home.html')
 
-
 @app.route('/CBR system')
 def index():
     return render_template('index.html')
 
-
 @app.route('/chatbot')
 def chatbot():
     return render_template('chatbot.html')
-
 
 @app.route('/query', methods=['POST'])
 def query():
@@ -40,7 +91,6 @@ def query():
         answer = RetreivalAugmentedGeneration.LLM_Run(str(user_query))
 
     return jsonify({'response': answer})
-
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -110,7 +160,6 @@ def submit():
                            treatment=treatment, prognosis=prognosis,
                            similar_cases=similar_cases)
 
-
 @app.route('/unknown_cases')
 def unknown_cases():
     file_path = 'FMD cases.csv'
@@ -120,7 +169,6 @@ def unknown_cases():
         return render_template('unknown_cases.html', cases=unknown_cases)
     else:
         return render_template('unknown_cases.html', cases={})
-
 
 @app.route('/edit_case/<case_id>', methods=['GET', 'POST'])
 def edit_case(case_id):
@@ -143,5 +191,25 @@ def edit_case(case_id):
         return render_template('update_case.html', case=None, case_id=case_id)
 
 
+@app.route('/imagesearch')
+def index_imagesearch():
+    return render_template('imagesearch.html')
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    if 'file' not in request.files:
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        return redirect(request.url)
+    if file:
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(filepath)
+        annotations = annotate(filepath, QUOTA_PROJECT_ID)
+        results = report(annotations)
+        return render_template('imageresults.html', results=results)
+
 if __name__ == "__main__":
     app.run(debug=True)
+
