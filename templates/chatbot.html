@@ -93,6 +93,10 @@
             margin-right: 10px;
             border-radius: 30px;
         }
+
+        .link{
+            margin-right: 100px;
+        }
     </style>
 </head>
 <body>
@@ -101,7 +105,7 @@
     </div>
     <div class="container">
         <div id="view-box" class="view-box"></div>
-        <!-- <button id="display-hide" onclick="toggleDisplay()">></button> -->
+        <a href="{{ url_for('home') }}" class="link">Home Page</a>
         <button class="change-llm" id="change-llm" onclick="toggleModel()">Fine_tuned only</button>
         <input id="query-entry" type="text" placeholder="Enter your query">
         <button class="query-btn" id="query-btn" onclick="requestInfo()">►</button>
